@@ -9,7 +9,7 @@ module Ethereum
       raise ArgumentError unless ['http', 'https'].include? uri.scheme
       @host = uri.host
       @port = uri.port
-      
+
       @ssl = uri.scheme == 'https'
       if ssl
         @uri = URI("https://#{@host}:#{@port}")
@@ -20,6 +20,7 @@ module Ethereum
 
     def send_single(payload)
       http = ::Net::HTTP.new(@host, @port)
+      http.read_timeout = 5000
       if @ssl
         http.use_ssl = true
       end
